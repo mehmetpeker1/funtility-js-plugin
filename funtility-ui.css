@@ -1,0 +1,22 @@
+#funtility {
+    float: right;
+    background-image: url("./Favicon.png");
+    background-size: 36px;
+    min-height: 36px;
+    min-width: 36px;
+    margin: 3px;
+    background-repeat: no-repeat;
+}
+
+#funtility .hide {
+    display: none;
+}
+
+#funtility .test {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
