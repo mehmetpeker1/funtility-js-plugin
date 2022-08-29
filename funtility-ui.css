@@ -1,22 +1,144 @@
 #funtility {
     float: right;
-    background-image: url("./Favicon.png");
-    background-size: 36px;
-    min-height: 36px;
-    min-width: 36px;
-    margin: 3px;
-    background-repeat: no-repeat;
+    color: rgb(69, 69, 69);
+    color: rgb(102, 191, 255);
+    font-size: 18px;
 }
 
-#funtility .hide {
-    display: none;
+.fnt-button {
+    color: inherit;
+    cursor: pointer;
+    padding: 9px 25px;
+    border-radius: 30px;
 }
 
-#funtility .test {
+.fnt-hover:hover {
+    color: rgb(227, 240, 255);
+    cursor: pointer;
+}
+
+.fnt-input {
+    border: none;
+    padding: 6px;
+    border-radius: 3px;
+    margin: 6px
+}
+
+#fnt-modal {
+    z-index:100;
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    background-color:rgba(0,0,0,.8);
+}
+
+#fnt-close-btn {
+    z-index: 101;
+    position: relative;
+    top: -40px;
+    float: right;
+    right: -40px;
+    border-radius: 50%;
+    border: solid 3px rgba(102, 191, 255, .3);
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background-color: black;
+}
+
+#fnt-close-btn:before {
     position: absolute;
-    z-index: 1000;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    background: rgba(102, 191, 255, .3);
+    content: "";
+    height: 3px;
+    top: 11px;
+    left: -1px;
+    width: 28px;
+    transform: rotate(-45deg);
+}
+
+#fnt-close-btn:after {
+    position: absolute;
+    background: rgba(102, 191, 255, .3);
+    content: "";
+    height: 3px;
+    top: 11px;
+    left: -1px;
+    width: 28px;
+    transform: rotate(45deg);
+}
+
+.fnt-container {
+    margin: 150px auto 0 auto;
+    min-width: 200px;
+    max-width: 200px;
+    width: fit-content;
+    padding: 24px;
+    color: rgb(102, 191, 255);
+    background-color: rgb(0, 0, 0);
+    border-radius: 8px;
+    border: solid 2px rgba(102, 191, 255, .3);
+    text-align: center;
+    line-height: 2em;
+}
+
+#fnt-msg-cntr {
+    z-index:200;
+    position:absolute;
+    bottom:0;
+    right:0;
+}
+
+.fnt-err {
+    color: rgb(200, 0, 0);
+    text-align: center;
+    line-height: 1;
+}
+
+#fnt-msg-cntr > .msg {
+    background-color: #000;
+    border-width: 2px;
+    margin: 6px;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.fnt-hgt-20 {
+    min-height: 20px;
+}
+
+.fnt-wid-200 {
+    min-width: 200px;
+    max-width: 200px;
+}
+
+.sm {
+    font-size: small;
+    line-height: 1.5;
+}
+
+.md {
+    font-size: medium;
+}
+
+.lg {
+    font-size: large;
+}
+
+.xlg {
+    font-size: x-large;
+}
+
+.xxlg {
+    font-size: xx-large;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.tx-ctr {
+    text-align: center;
 }

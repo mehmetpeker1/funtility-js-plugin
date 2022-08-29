@@ -1,102 +1,268 @@
-class FuntilityAPI
+class ApiResponse
 {
     constructor(data = {})
     {
-        this.funtilityUi = data.hasOwnProperty('funtilityUi') ? data.funtilityUi : false
+        this.errors = data.hasOwnProperty('errors') ? data.errors : []
+        this.result = data.hasOwnProperty('result') ? data.result : {}
+    }
 
-        this.displayErrorDelegate = false
-        if (data.hasOwnProperty('displayErrorDelegate'))
+    get hasErrors()
+    {
+        return this.errors.length > 0
+    }
+}
+
+class FuntilityApiState
+{
+    constructor(data = {})
+    {
+        this.authToken = data.hasOwnProperty('authToken') ? data.authToken : null
+        this.createDate = data.hasOwnProperty('createDate') ? data.createDate : null
+        this.userName = data.hasOwnProperty('userName') ? data.userName : null
+    }
+}
+
+class FuntilityAPI
+{
+    constructor(appName = null)
+    {
+        if(appName === null) throw "FuntilityAPI requires the name of the app using it."
+        this.appName = appName
+
+        this.state = new FuntilityApiState()
+        this.syncLocalStorage()
+
+        this.accountEmail = ''
+        this.signInCodePrefix = ''
+        this.apiBaseUrl = 'http://localhost:5194/'
+    }
+
+    syncLocalStorage(push = false){
+        if (push)
         {
-            this.displayErrorDelegate = data.displayErrorDelegate
+            localStorage.setItem('funtilityApiState',JSON.stringify(this.state))
         } else {
-            if (this.funtilityUi && !this.displayErrorDelegate) 
+            let state = localStorage.getItem('funtilityApiState')
+            if (!state)
             {
-                this.displayErrorDelegate = this.funtilityUi.displayError
-            } else {
-                this.displayErrorDelegate = alert
+                localStorage.setItem('funtilityApiState',JSON.stringify(this.state))
+            }
+            else
+            {
+                this.state = new FuntilityApiState(JSON.parse(state))
             }
         }
-
-        this.apiBaseUrl = 'localhost:5194/api/v1/'
-        this.getQuerySessionToken()
-        this.sessionToken = this.getLocalSessionToken()
     }
 
-    getQuerySessionToken()
+    clearState()
     {
-        const search = window.location.search.substring(1)
-        if (search != '') {
-            search.split('&').forEach(n => {
-                let param = n.split('=')
-                if (param[0] == 'jwt'){
-                    localStorage.setItem('funtilitySessionToken',param[1])
+        this.state = new FuntilityApiState()
+        this.syncLocalStorage(true)
+    }
+
+    get userIsSignedIn()
+    {
+        let result = true
+        if (this.state.authToken !== null) {
+            try
+            {
+                let token = this.parseJwt(this.state.authToken)
+                if(this.isExpired(token.expirey))
+                {
+                    // this.clearState()
+                    result = false
                 }
-            })
+            } catch {
+                result = false
+            }
+        } else { 
+            result = false
         }
+        return result
     }
 
-    getLocalSessionToken()
+    parseJwt(token)
     {
-        let s = localStorage.getItem('funtilitySessionToken')
-        if (!s)
-        {
-            s = ''
-            localStorage.setItem('funtilitySessionToken',s)
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+    }
+
+    isExpired(expirey)
+    {
+        let utcNow = this.getUTCNowAsCustomString()
+        let result = expirey < utcNow
+        return result
+    }
+
+    getUTCNowAsCustomString()
+    {
+        const d = new Date()
+        const yyyy = d.getUTCFullYear().toString()
+        const MM = (d.getUTCMonth() + 1).toString().padStart(2,'0')
+        const dd = d.getUTCDate().toString().padStart(2,'0')
+        const hh = d.getUTCHours().toString().padStart(2,'0')
+        const mm = d.getUTCMinutes().toString()
+        return `${yyyy}${MM}${dd}${hh}${mm}`
+    }
+
+    signOut()
+    {
+        this.accountEmail = ''
+        this.signInCodePrefix = ''
+        this.clearState()
+    }
+
+    //#region Funtility Account Related Endpoints
+
+    /**
+     * Registers a new user account with Funtility.
+     * @param email Required to register a new user account.
+     * Must be unique; no two accounts may have the same email.
+     * @param userName Required to register a new user account.
+     * Must be unique; no two accounts may have the same user name.
+     * @return {ApiResponse} A promise that resolves to an instance of ApiResponse
+     */
+    async POST_UserAccount(email, userName)
+    {
+        this.clearState()
+        let body = {
+            "Email": email,
+            "UserName": userName,
+            "AppName": this.appName
         }
-        return s
+        let r = await this.POST("UserAccount",body)
+        return new ApiResponse(r)
     }
 
     /**
-     * Use this method to register a new user account with Funtility.
-     * @param {FuntilityRegistrationForm} funtilityRegistrationForm Required to register a new user account.
+     * Email a sign in code to a registered user.
+     * @param {string} email Required. The email of the registered user.
+     * @return {ApiResponse} A promise that resolves to an instance of ApiResponse
      */
-    registerNewUser(funtilityRegistrationForm)
+    async GET_LoginCode(email)
     {
-        let init = this.getInit("POST",funtilityRegistrationForm)
-        fetch("account/register",init).then(response => this.handleResponse(response))
+        this.clearState()
+        this.accountEmail = email
+        let params = [
+            ['email',email],
+            ['appName',this.appName]
+        ]
+        let r = await this.GET("LoginCode", params)
+        this.signInCodePrefix = r.result.code
+        return new ApiResponse({ 'errors': r.errors, 'result': r.result })
     }
 
-    login(funtilityLoginForm)
+    /**
+     * Use this method to sign the user in.
+     * @param {string} code The code sent to the user's email.
+     * @return {ApiResponse} A promise that resolves to an instance of ApiResponse
+     */
+    async GET_Authentication(code)
     {
-        // let init = this.getInit(RequestMethods.POST,funtilityLoginForm)
-        // let endpoint = `${this.apiBaseUrl}account/login`
-        // fetch(endpoint,init)
-        // .then(response => {
-        //     if(this.hasErrors(response))
-        //     {
-        //         this.handleErrors(response)
-        //     } else {
-        //         // retrieve the JWT from the response
-        //     }
-        // })
-        // .catch(error => {
-        //     console.error(error)
-        // })
+        this.clearState()
+        let params = [
+            ["code",`${this.signInCodePrefix}.${code}`],
+            ["email",this.accountEmail]
+        ]
+        let r = await this.GET("Authentication",params)
+        this.signInCodePrefix = ''
+        this.state = new FuntilityApiState(r.result)
+        this.syncLocalStorage(true)
+        return new ApiResponse({ 'errors': r.errors, 'result': true })
     }
 
-    GET(endpoint)
+    //#endregion
+
+    //#region Funtility General Request Methods
+
+    /**
+     * 
+     * @param {string} endpoint
+     * The string value of the endpoint without
+     * the leading slash. This will be appended
+     * to the base Funtility API URL.
+     * @param {[[string,string]]} params 
+     * A two dimensional array of key value pairs: 
+     * E.G. [ [ "id" , 10 ] ]
+     * @returns 
+     * See the Funtility API documentation for
+     * the return type of the endpoint.
+     */
+    async GET(endpoint,params = [])
     {
-        let init = getInit("GET")
-        return this.request(endpoint,init)
+        let init = this.getInit("GET")
+        endpoint = `${endpoint}${this.getQueryParamString(params)}`
+        const data = await this.request(endpoint, init)
+        return new ApiResponse(data)
     }
     
-    PUT(endpoint,body)
+    /**
+     * 
+     * @param {string} endpoint
+     * The string value of the endpoint without
+     * the leading slash. This will be appended
+     * to the base Funtility API URL.
+     * @param {[[string,string]]} params 
+     * A two dimensional array of key value pairs: 
+     * E.G. [ [ "id" , 10 ] ]
+     * @returns 
+     * See the Funtility API documentation for
+     * the return type of the endpoint.
+     */
+    async PUT(endpoint,body,params = [])
     {
-        let init = getInit("PUT",body)
-        return this.request(endpoint,init)
+        let init = this.getInit("PUT",body)
+        endpoint = `${endpoint}${this.getQueryParamString(params)}`
+        const data = await this.request(endpoint, init)
+        return new ApiResponse(data)
     }
     
-    POST(endpoint,body)
+    /**
+     * 
+     * @param {string} endpoint
+     * The string value of the endpoint without
+     * the leading slash. This will be appended
+     * to the base Funtility API URL.
+     * @param {[[string,string]]} params 
+     * A two dimensional array of key value pairs: 
+     * E.G. [ [ "id" , 10 ] ]
+     * @returns 
+     * See the Funtility API documentation for
+     * the return type of the endpoint.
+     */
+    async POST(endpoint,body)
     {
-        let init = getInit("POST",body)
-        return this.request(endpoint,init)
+        let init = this.getInit("POST",body)
+        const data = await this.request(endpoint, init)
+        return new ApiResponse(data)
     }
     
-    DELETE(endpoint)
+    /**
+     * 
+     * @param {string} endpoint
+     * The string value of the endpoint without
+     * the leading slash. This will be appended
+     * to the base Funtility API URL.
+     * @param {[[string,string]]} params 
+     * A two dimensional array of key value pairs: 
+     * E.G. [ [ "id" , 10 ] ]
+     * @returns 
+     * See the Funtility API documentation for
+     * the return type of the endpoint.
+     */
+    async DELETE(endpoint,params = [])
     {
-        let init = getInit("DELETE")
-        return this.request(endpoint,init)
+        let init = this.getInit("DELETE")
+        endpoint = `${endpoint}${this.getQueryParamString(params)}`
+        const data = await this.request(endpoint, init)
+        return new ApiResponse(data)
     }
+
+    //#region (private) Request Helper Methods
 
     getInit(method, body = {})
     {
@@ -119,71 +285,28 @@ class FuntilityAPI
     getHeaders()
     {
         let result = new Headers()
-        result.append('Authorization', `bearer ${this.sessionToken}`);
+        result.append('Authorization', `bearer ${this.state.authToken}`)
+        result.append('Content-Type', 'application/json;charset=UTF-8')
         return result
     }
 
-    request(endpoint,init)
+    getQueryParamString(params)
     {
-        let result = false
-        fetch(`${this.apiBaseUrl}${endpoint}`,init)
-        .then(response => {
-            if (response.status != 200) 
-            {
-                this.displayErrorDelegate('Oh no! There was a problem!')
-            } else {
-                let apiResObj = response.json()
-                if (this.hasErrors(apiResObj))
-                {
-                    if (this.displayErrorDelegate == alert)
-                    {
-                        apiResObj.errors.forEach((err) => {
-                            this.displayErrorDelegate(err)
-                        })
-                    } else {
-                        this.displayErrorDelegate(err)
-                    }
-                } else {
-                    result = apiResObj.result
-                }
-            }
-        })
-        .catch(error => {
-            this.displayErrorDelegate('Oh no! There was an error!')
-            console.error(error)
+        let result = params.length > 0 ? "?" : ""
+        params.forEach(keyVal => {
+            let amp = result === "?" ? "" : "&"
+            result = `${result}${amp}${keyVal[0]}=${keyVal[1]}`
         })
         return result
     }
 
-    hasErrors(response)
+    async request(endpoint,init)
     {
-        if(!response) return false
-        if(typeof(errors) == 'object' && errors.length != 'undefined')
-        {
-            return errors.length > 0
-        }
-        return false
+        const res = await fetch(`${this.apiBaseUrl}${endpoint}`, init)
+        return await res.json()
     }
-}
 
-/**
- * Use this class to register a new user with Funtility
- */
-class FuntilityRegistrationForm
-{
-    constructor(data = {})
-    {
-        this.userName = data.hasOwnProperty('userName') ? data.userName : "Guest"
-        this.password = data.hasOwnProperty('password') ? data.password : null
-        this.email = data.hasOwnProperty('email') ? data.email : null
-    }
-}
+    //#endregion
 
-class FuntilityLoginForm
-{
-    constructor(data = {})
-    {
-        this.email = data.hasOwnProperty('email') ? data.email : null
-        this.password = data.hasOwnProperty('password') ? data.password : null
-    }
+    //#endregion
 }
