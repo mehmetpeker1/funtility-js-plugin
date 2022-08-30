@@ -365,7 +365,7 @@ class FuntilityUI
             .Element
         
         let info = new Ele('p')
-            .InnerText('Coming soon. This is where you will' +
+            .InnerText('Coming soon. This is where you will ' +
                 'be able to manage account details.')
             .AddClass('sm')
             .Element
@@ -407,15 +407,6 @@ class FuntilityUI
         }
         return result
     }
-
-    // disableButton(id)
-    // {
-    //     let b = document.getElementById(id)
-    //     if(b !== null && b !== 'undefined')
-    //     {
-    //         b.setAttribute('disabled',true)
-    //     }
-    // }
 
     generateFormContainer(childElements = [])
     {

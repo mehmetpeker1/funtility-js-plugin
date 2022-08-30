@@ -28,6 +28,7 @@ class FuntilityAPI
     {
         if(appName === null) throw "FuntilityAPI requires the name of the app using it."
         this.appName = appName
+        this.stateName = appName.replace(/\s+/g, '')
 
         this.state = new FuntilityApiState()
         this.syncLocalStorage()
@@ -40,12 +41,12 @@ class FuntilityAPI
     syncLocalStorage(push = false){
         if (push)
         {
-            localStorage.setItem('funtilityApiState',JSON.stringify(this.state))
+            localStorage.setItem(this.stateName,JSON.stringify(this.state))
         } else {
-            let state = localStorage.getItem('funtilityApiState')
+            let state = localStorage.getItem(this.stateName)
             if (!state)
             {
-                localStorage.setItem('funtilityApiState',JSON.stringify(this.state))
+                localStorage.setItem(this.stateName,JSON.stringify(this.state))
             }
             else
             {
