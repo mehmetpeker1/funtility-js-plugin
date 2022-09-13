@@ -86,6 +86,12 @@
          return this
      }
  
+     InnerHTML(html)
+     {
+         this.ele.innerHTML = html
+         return this
+     }
+ 
      //#region Attributes
  
      Placeholder(text)
@@ -99,6 +105,12 @@
          this.ele.setAttribute('type',type)
          return this
      }
+
+     Disable()
+     {
+        this.ele.setAttribute('disabled',true)
+        return this
+     }
  
      //#endregion
  
@@ -107,62 +119,3 @@
         return this.ele
      }
  }
-
-const TagList = [
-    "a",
-    "abbr",
-    "address",
-    "area",
-    "article",
-    "aside",
-    "audio",
-    "b",
-    "base",
-    "bdi",
-    "bdo",
-    "blockquote",
-    "body",
-    "br",
-    "button",
-    "canvas",
-    "caption",
-    "cite",
-    "code",
-    "col",
-    "colgroup",
-    "data",
-    "datalist",
-    "dd",
-    "del",
-    "details",
-    "dfn",
-    "dialog",
-    "div",
-    "dl",
-    "dt",
-    "em",
-    "embed",
-    "fieldset",
-    "figcaption",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-]

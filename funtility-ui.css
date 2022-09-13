@@ -91,6 +91,18 @@
     right:0;
 }
 
+.fnt-success {
+    color: rgb(6, 185, 0);
+    text-align: center;
+    line-height: 1;
+}
+
+.fnt-warn {
+    color: rgb(231, 177, 0);
+    text-align: center;
+    line-height: 1;
+}
+
 .fnt-err {
     color: rgb(200, 0, 0);
     text-align: center;
