@@ -35,7 +35,7 @@ class FuntilityAPI
 
         this.accountEmail = ''
         this.signInCodePrefix = ''
-        this.apiBaseUrl = 'http://localhost:5194/'
+        this.apiBaseUrl = 'http://api.funtility.com/'
     }
 
     syncLocalStorage(push = false){

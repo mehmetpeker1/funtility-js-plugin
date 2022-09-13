@@ -32,7 +32,7 @@
       * let div = new Ele('div')
       *               .AddClass('class-a class-b')
       *               .Element
-      * @returns {this}
+      * @returns {this} The current instance of the Ele class.
       */
      AddClass(classes)
      {
@@ -46,8 +46,8 @@
  
      /**
       * 
-      * @param {string} fn 
-      * @returns 
+      * @param {function} fn The function to execute when the event is fired.
+      * @returns {this} The current instance of the Ele class.
       */
      Event_Click(fn)
      {
