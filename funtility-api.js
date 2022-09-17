@@ -286,7 +286,10 @@ class FuntilityAPI
     getHeaders()
     {
         let result = new Headers()
-        result.append('Authorization', `bearer ${this.state.authToken}`)
+        if (this.state && this.state.authToken)
+        {
+            result.append('Authorization', `bearer ${this.state.authToken}`)
+        }
         result.append('Content-Type', 'application/json;charset=UTF-8')
         return result
     }
