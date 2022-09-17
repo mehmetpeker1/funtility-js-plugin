@@ -24,7 +24,7 @@ class FuntilityApiState
 
 class FuntilityAPI
 {
-    constructor(appName = null)
+    constructor(appName = null, apiBaseUrl = 'http://api.funtility.com/')
     {
         if(appName === null) throw "FuntilityAPI requires the name of the app using it."
         this.appName = appName
@@ -35,7 +35,7 @@ class FuntilityAPI
 
         this.accountEmail = ''
         this.signInCodePrefix = ''
-        this.apiBaseUrl = 'http://api.funtility.com/'
+        this.apiBaseUrl = apiBaseUrl
     }
 
     syncLocalStorage(push = false){
