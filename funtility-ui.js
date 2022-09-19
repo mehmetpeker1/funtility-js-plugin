@@ -226,8 +226,14 @@ class FuntilityUI
             .AddClass('fnt-button fnt-wid-200 xxlg tx-ctr')
             .Event_Click((e) => { this.requestSignInCode(email) })
             .Element
+        
+        let skip = new Ele('a')
+            .InnerText('I already have a code.')
+            .AddClass('fnt-have-code')
+            .Event_Click((e) => { this.showModal(this.EnterCodeContainer) })
+            .Element
 
-        return this.generateFormContainer([hdr,app,info,inp,iVal,btn])
+        return this.generateFormContainer([hdr,app,info,inp,iVal,btn,skip])
     }
 
     requestSignInCode()

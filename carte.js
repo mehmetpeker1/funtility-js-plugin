@@ -36,9 +36,13 @@
       */
      AddClass(classes)
      {
-         classes.split(' ').forEach((cls) => {
-             this.ele.classList.add(cls)    
-         })
+        classes = classes.trim()
+        if(classes)
+        {
+            classes.split(' ').forEach((cls) => {
+                this.ele.classList.add(cls)    
+            })
+        }
          return this
      }
 
