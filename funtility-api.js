@@ -70,7 +70,6 @@ class FuntilityAPI
                 let token = this.parseJwt(this.state.authToken)
                 if(this.isExpired(token.expirey))
                 {
-                    // this.clearState()
                     result = false
                 }
             } catch {
@@ -192,6 +191,7 @@ class FuntilityAPI
      * @returns 
      * See the Funtility API documentation for
      * the return type of the endpoint.
+     * http://api.funtility.com/index.html
      */
     async GET(endpoint,params = [])
     {
@@ -213,6 +213,7 @@ class FuntilityAPI
      * @returns 
      * See the Funtility API documentation for
      * the return type of the endpoint.
+     * http://api.funtility.com/index.html
      */
     async PUT(endpoint,body,params = [])
     {
@@ -234,6 +235,7 @@ class FuntilityAPI
      * @returns 
      * See the Funtility API documentation for
      * the return type of the endpoint.
+     * http://api.funtility.com/index.html
      */
     async POST(endpoint,body)
     {
@@ -254,6 +256,7 @@ class FuntilityAPI
      * @returns 
      * See the Funtility API documentation for
      * the return type of the endpoint.
+     * http://api.funtility.com/index.html
      */
     async DELETE(endpoint,params = [])
     {
