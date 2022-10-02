@@ -127,19 +127,19 @@ class FuntilityUI
             .InnerText('Submit')
             .Id('signUpFormButton')
             .AddClass('fnt-button fnt-wid-200 xxlg tx-ctr')
-            .Event_Click((e) => { this.requestUserAccount() })
+            .Event_Click((e) => { this.requestAccount() })
             .Element
 
         return this.generateFormContainer([hdr,app,br,inEmail,iVal1,inUser,iVal2,btn])
     }
 
-    requestUserAccount()
+    requestAccount()
     {
         let form = this.signUpForm
         if (form.isValid())
         {
             this.showModal(this.ProcessingContainer, ModalCloseMode.PROGRAMMATIC)
-            this.api.POST_UserAccount(form.email,form.username)
+            this.api.POST_Account(form.email,form.username)
             .then((res) => {
                 if(res.errors.length > 0) {
                     this.deleteModal()

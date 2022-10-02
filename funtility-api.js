@@ -126,7 +126,7 @@ class FuntilityAPI
      * Must be unique; no two accounts may have the same user name.
      * @return {ApiResponse} A promise that resolves to an instance of ApiResponse
      */
-    async POST_UserAccount(email, userName)
+    async POST_Account(email, userName)
     {
         this.clearState()
         let body = {
@@ -134,7 +134,7 @@ class FuntilityAPI
             "UserName": userName,
             "AppName": this.appName
         }
-        let r = await this.POST("UserAccount",body)
+        let r = await this.POST("Account",body)
         return new ApiResponse(r)
     }
 
@@ -151,7 +151,7 @@ class FuntilityAPI
             ['email',email],
             ['appName',this.appName]
         ]
-        let r = await this.GET("LoginCode", params)
+        let r = await this.GET("Login", params)
         this.signInCodePrefix = r.result.code
         return new ApiResponse({ 'errors': r.errors, 'result': r.result })
     }
