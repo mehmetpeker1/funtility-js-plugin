@@ -166,7 +166,8 @@ class FuntilityAPI
         this.clearState()
         let params = [
             ["code",`${this.signInCodePrefix}.${code}`],
-            ["email",this.accountEmail]
+            ["email",this.accountEmail],
+            ["app", this.appName]
         ]
         let r = await this.GET("Authentication",params)
         this.signInCodePrefix = ''
