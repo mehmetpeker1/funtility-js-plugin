@@ -20,7 +20,11 @@
         <div id="content"></div>
     </body>
     <script>
-        let funtilityApi = new FuntilityAPI("Funtility Plugin")
-        let funtilityUi = new FuntilityUI(funtilityApi)
+        let funtilityApi, funtilityUi
+        window.onload = () => {
+            // detect if this is the development environment or hosted on a server
+            funtilityApi = window.location.host ? new FuntilityAPI("Funtility Plugin") : new FuntilityAPI("Funtility Plugin",'http://localhost:5194/')
+            funtilityUi = new FuntilityUI(funtilityApi)
+        }
     </script>
 </html>
