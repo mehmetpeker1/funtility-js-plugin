@@ -31,22 +31,22 @@ class FuntilityAPI
         this.stateName = appName.replace(/\s+/g, '')
 
         this.state = new FuntilityApiState()
-        this.syncLocalStorage()
+        this.syncSessionStorage()
 
         this.accountEmail = ''
         this.signInCodePrefix = ''
         this.apiBaseUrl = apiBaseUrl
     }
 
-    syncLocalStorage(push = false){
+    syncSessionStorage(push = false){
         if (push)
         {
-            localStorage.setItem(this.stateName,JSON.stringify(this.state))
+            sessionStorage.setItem(this.stateName,JSON.stringify(this.state))
         } else {
-            let state = localStorage.getItem(this.stateName)
+            let state = sessionStorage.getItem(this.stateName)
             if (!state)
             {
-                localStorage.setItem(this.stateName,JSON.stringify(this.state))
+                sessionStorage.setItem(this.stateName,JSON.stringify(this.state))
             }
             else
             {
@@ -58,7 +58,7 @@ class FuntilityAPI
     clearState()
     {
         this.state = new FuntilityApiState()
-        this.syncLocalStorage(true)
+        this.syncSessionStorage(true)
     }
 
     get userIsSignedIn()
@@ -172,7 +172,7 @@ class FuntilityAPI
         let r = await this.GET("Authentication",params)
         this.signInCodePrefix = ''
         this.state = new FuntilityApiState(r.result)
-        this.syncLocalStorage(true)
+        this.syncSessionStorage(true)
         return new ApiResponse({ 'errors': r.errors, 'result': true })
     }
 

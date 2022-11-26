@@ -14,16 +14,14 @@ class FuntilityUI
     init()
     {
         this.initMessageCenter()
-        let leftBtn = this.signInButton
         let divider = new Ele('span').InnerText(' | ').Element
-        let rightBtn = this.signUpButton
         
         if (this.api.userIsSignedIn)
         {
-            leftBtn = this.userNameButton
-            rightBtn = this.signOutButon
+            this.funtilityElement([this.userNameButton,divider,this.signOutButon])
+        } else {
+            this.funtilityElement([this.signInButton,divider,this.signUpButton])
         }
-        this.funtilityElement([leftBtn,divider,rightBtn])
     }
 
     funtilityElement(childElements = [])
