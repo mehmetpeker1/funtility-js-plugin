@@ -93,6 +93,7 @@
 
 #fnt-msg-cntr {
     z-index:200;
+    width: 100%;
     position:absolute;
     top:0;
     padding-top: 60px;
