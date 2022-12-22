@@ -94,24 +94,37 @@
 #fnt-msg-cntr {
     z-index:200;
     position:absolute;
-    bottom:0;
-    right:0;
+    top:0;
+    padding-top: 60px;
+}
+
+#fnt-msg-cntr > .msg {
+    background-color: #000;
+    margin: 6px auto;
+    padding: 12px;
+    width: max-content;
+    border-width: 1px;
+    border-radius: 12px;
+    border-style: solid;
 }
 
 .fnt-success {
     color: rgb(6, 185, 0);
+    border-color: rgb(6, 185, 0);
     text-align: center;
     line-height: 1;
 }
 
 .fnt-warn {
     color: rgb(231, 177, 0);
+    border-color: rgb(231, 177, 0);
     text-align: center;
     line-height: 1;
 }
 
 .fnt-err {
     color: rgb(200, 0, 0);
+    border-color: rgb(200, 0, 0);
     text-align: center;
     line-height: 1;
 }
@@ -120,14 +133,6 @@
     cursor: pointer;
     position: relative;
     top: 10px
-}
-
-#fnt-msg-cntr > .msg {
-    background-color: #000;
-    border-width: 2px;
-    margin: 6px;
-    padding: 12px;
-    border-radius: 12px;
 }
 
 .fnt-hgt-20 {
