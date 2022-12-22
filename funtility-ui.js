@@ -329,7 +329,7 @@ class FuntilityUI
                         this.showEphemeralMessage('fnt-msg-cntr',this.messageType.ERROR,err,10000)
                     })
                 } else {
-                    this.init()
+                    location.reload()
                 }
             })
         }
