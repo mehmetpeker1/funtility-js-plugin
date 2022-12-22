@@ -298,7 +298,7 @@ class FuntilityAPI
         return result
     }
 
-    getQueryParamString(params)
+    getQueryParamString(params = [])
     {
         let result = params.length > 0 ? "?" : ""
         params.forEach(keyVal => {
