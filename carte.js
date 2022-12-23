@@ -103,6 +103,12 @@
          this.ele.placeholder = text
          return this
      }
+
+     Title(text)
+     {
+        this.ele.setAttribute('title', text)
+        return this
+     }
  
      Type(type)
      {
