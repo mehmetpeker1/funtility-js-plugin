@@ -95,8 +95,7 @@
     z-index:200;
     width: 100%;
     position:absolute;
-    top:0;
-    padding-top: 60px;
+    top:60px;
 }
 
 #fnt-msg-cntr > .msg {
