@@ -62,6 +62,15 @@
         return this
      }
 
+     Event(type,fn)
+     {
+        if(typeof fn === 'function')
+        {
+            this.ele.addEventListener(type,fn)
+        }
+        return this
+     }
+
      //#endregion
  
      AppendChild(child)
@@ -97,6 +106,18 @@
      }
  
      //#region Attributes
+
+     For(text)
+     {
+        this.ele.setAttribute('for', text)
+        return this
+     }
+
+     Name(text)
+     {
+        this.ele.setAttribute('name', text)
+        return this
+     }
  
      Placeholder(text)
      {
