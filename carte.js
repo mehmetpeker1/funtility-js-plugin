@@ -107,6 +107,12 @@
  
      //#region Attributes
 
+     Checked(state = true)
+     {
+        this.ele.setAttribute('checked',state)
+        return this
+     }
+
      For(text)
      {
         this.ele.setAttribute('for', text)
@@ -137,9 +143,9 @@
          return this
      }
 
-     Disable()
+     Disable(state = true)
      {
-        this.ele.setAttribute('disabled',true)
+        this.ele.setAttribute('disabled',state)
         return this
      }
  
