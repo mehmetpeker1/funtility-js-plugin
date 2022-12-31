@@ -51,7 +51,7 @@ class FuntilityUI
                 if(confirm("Are you sure you want to sign out?"))
                 {
                     this.api.signOut()
-                    this.init()
+                    location.reload()
                 }
             })
             .Element
@@ -482,8 +482,6 @@ class FuntilityUI
         return msgCenter
     }
 
-    //#endregion
-
     showSuccess(message)
     {
         this.showEphemeralMessage('fnt-msg-cntr',this.messageType.SUCCESS,message, 10000)
@@ -544,6 +542,8 @@ class FuntilityUI
             .Event_Click(fn)
             .Element
     }
+
+    //#endregion
     
     //#endregion
 }

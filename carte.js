@@ -1,6 +1,6 @@
 /**
  * A class used to create a DOM Element using
- * method cascading syntax.
+ * method chaining syntax.
  * @example 
  * let div = new Ele('div')
  *               .InnerText("my element's text")
@@ -9,6 +9,7 @@
  */
  class Ele
  {
+    #ele
     /** 
      * Ele class constructor used to create a DOM Element using
      * method cascading syntax.
@@ -19,9 +20,24 @@
      *               .AddClass('class-a class-b')
      *               .Element
      */
-     constructor(tag)
+     constructor(tag = "")
      {
-         this.ele = document.createElement(tag)
+        if(tag != "")
+        {
+            this.#ele = document.createElement(tag)
+        }
+     }
+
+     /**
+      * A static method for creating a new ELe object using the document.getElementById() method under the hood.
+      * @param {string} id The id of the document element to base a new Ele object from.
+      * @returns {Ele} A new Ele object.
+      */
+     static ById(id)
+     {
+        let result = new Eel()
+        this.#ele = document.getElementById(id)
+        return result
      }
 
      /**
@@ -40,7 +56,7 @@
         if(classes)
         {
             classes.split(' ').forEach((cls) => {
-                this.ele.classList.add(cls)    
+                this.#ele.classList.add(cls)    
             })
         }
          return this
@@ -57,7 +73,7 @@
      {
         if(typeof fn === 'function')
         {
-            this.ele.addEventListener('click',fn)
+            this.#ele.addEventListener('click',fn)
         }
         return this
      }
@@ -66,7 +82,7 @@
      {
         if(typeof fn === 'function')
         {
-            this.ele.addEventListener(type,fn)
+            this.#ele.addEventListener(type,fn)
         }
         return this
      }
@@ -75,33 +91,33 @@
  
      AppendChild(child)
      {
-         this.ele.appendChild(child)
+         this.#ele.appendChild(child)
          return this
      }
  
      AppendChildren(children = [])
      {
          children.forEach((child) => {
-             this.ele.appendChild(child)
+             this.#ele.appendChild(child)
          })
          return this
      }
  
      Id(id)
      {
-         this.ele.id = id
+         this.#ele.id = id
          return this
      }
  
      InnerText(txt)
      {
-         this.ele.innerText = txt
+         this.#ele.innerText = txt
          return this
      }
  
      InnerHTML(html)
      {
-         this.ele.innerHTML = html
+         this.#ele.innerHTML = html
          return this
      }
  
@@ -109,43 +125,43 @@
 
      Checked(state = true)
      {
-        this.ele.setAttribute('checked',state)
+        this.#ele.setAttribute('checked',state)
         return this
      }
 
      For(text)
      {
-        this.ele.setAttribute('for', text)
+        this.#ele.setAttribute('for', text)
         return this
      }
 
      Name(text)
      {
-        this.ele.setAttribute('name', text)
+        this.#ele.setAttribute('name', text)
         return this
      }
  
      Placeholder(text)
      {
-         this.ele.placeholder = text
+         this.#ele.placeholder = text
          return this
      }
 
      Title(text)
      {
-        this.ele.setAttribute('title', text)
+        this.#ele.setAttribute('title', text)
         return this
      }
  
      Type(type)
      {
-         this.ele.setAttribute('type',type)
+         this.#ele.setAttribute('type',type)
          return this
      }
 
      Disable(state = true)
      {
-        this.ele.setAttribute('disabled',state)
+        this.#ele.setAttribute('disabled',state)
         return this
      }
  
@@ -153,6 +169,6 @@
  
      get Element()
      {
-        return this.ele
+        return this.#ele
      }
  }
