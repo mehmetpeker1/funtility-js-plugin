@@ -1,11 +1,13 @@
 class FuntilityUI
 {
-    constructor(funtilityApi)
+    #appIsExclusive
+    constructor(funtilityApi, appIsExclusive = false)
     {
         if(funtilityApi === null) throw "FuntilityUI requires an instance of the FuntilityAPI."
         this.api = funtilityApi
         this.form = {}
         this.senderEmail = ""
+        this.#appIsExclusive = appIsExclusive
         this.init()
     }
 
@@ -20,7 +22,12 @@ class FuntilityUI
         {
             this.funtilityElement([this.userNameButton,divider,this.signOutButon])
         } else {
-            this.funtilityElement([this.signInButton,divider,this.signUpButton])
+            if (this.#appIsExclusive)
+            {
+                this.funtilityElement([this.signInButton])
+            } else {
+                this.funtilityElement([this.signInButton,divider,this.signUpButton])
+            }
         }
     }
 
