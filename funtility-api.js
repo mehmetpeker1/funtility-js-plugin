@@ -19,6 +19,7 @@ class FuntilityApiState
         this.authToken = data.hasOwnProperty('authToken') ? data.authToken : null
         this.createDate = data.hasOwnProperty('createDate') ? data.createDate : null
         this.userName = data.hasOwnProperty('userName') ? data.userName : null
+        this.email = data.hasOwnProperty('email') ? data.email : null
     }
 }
 
@@ -33,7 +34,6 @@ class FuntilityAPI
         this.state = new FuntilityApiState()
         this.syncSessionStorage()
 
-        this.accountEmail = ''
         this.signInCodePrefix = ''
         this.apiBaseUrl = apiBaseUrl
     }
@@ -53,6 +53,19 @@ class FuntilityAPI
                 this.state = new FuntilityApiState(JSON.parse(state))
             }
         }
+    }
+
+    get savedEmail()
+    {
+        let local = localStorage.getItem(this.stateName)
+        if (local) {
+            return local
+        } 
+        return ""
+    }
+    set savedEmail(value)
+    {
+        localStorage.setItem(this.stateName,value)
     }
 
     clearState()
@@ -111,7 +124,6 @@ class FuntilityAPI
 
     signOut()
     {
-        this.accountEmail = ''
         this.signInCodePrefix = ''
         this.clearState()
     }
@@ -146,7 +158,7 @@ class FuntilityAPI
     async GET_LoginCode(email)
     {
         this.clearState()
-        this.accountEmail = email
+        this.savedEmail = email
         let params = [
             ['email',email],
             ['appName',this.appName]
@@ -166,12 +178,13 @@ class FuntilityAPI
         this.clearState()
         let params = [
             ["code",`${this.signInCodePrefix}.${code}`],
-            ["email",this.accountEmail],
+            ["email",this.savedEmail],
             ["app", this.appName]
         ]
         let r = await this.GET("Authentication",params)
         this.signInCodePrefix = ''
         this.state = new FuntilityApiState(r.result)
+        this.savedEmail = this.state.email
         this.syncSessionStorage(true)
         return new ApiResponse({ 'errors': r.errors, 'result': true })
     }

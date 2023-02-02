@@ -1,13 +1,11 @@
 class FuntilityUI
 {
-    #appIsExclusive
-    constructor(funtilityApi, appIsExclusive = false)
+    constructor(funtilityApi)
     {
         if(funtilityApi === null) throw "FuntilityUI requires an instance of the FuntilityAPI."
         this.api = funtilityApi
         this.form = {}
         this.senderEmail = ""
-        this.#appIsExclusive = appIsExclusive
         this.init()
     }
 
@@ -22,12 +20,7 @@ class FuntilityUI
         {
             this.funtilityElement([this.userNameButton,divider,this.signOutButon])
         } else {
-            if (this.#appIsExclusive)
-            {
-                this.funtilityElement([this.signInButton])
-            } else {
-                this.funtilityElement([this.signInButton,divider,this.signUpButton])
-            }
+            this.funtilityElement([this.signInButton,divider,this.signUpButton])
         }
     }
 
@@ -218,7 +211,7 @@ class FuntilityUI
             .Type('email')
             .Element
         
-        if (this.api.accountEmail) inp.value = this.api.accountEmail
+        inp.value = this.api.savedEmail
 
         let iVal = new Ele('div')
             .AddClass('fnt-hgt-20')
