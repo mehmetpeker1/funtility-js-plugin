@@ -438,7 +438,8 @@ class FuntilityUI
     get ProcessingContainer()
     {
         let hdr = document.createElement('div')
-        hdr.classList.add('bold xlg')
+        hdr.classList.add('bold')
+        hdr.classList.add('xlg')
         hdr.innerText = 'Thinking...'        
         return this.generateFormContainer([hdr])
     }
