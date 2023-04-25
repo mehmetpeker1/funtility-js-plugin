@@ -454,7 +454,8 @@ class FuntilityUI
         let parent = document.getElementById(parentElementId)
 
         let msg = document.createElement('div')
-        msg.classList.add(`${cls} msg`)
+        msg.classList.add(cls)
+        msg.classList.add('msg')
         msg.innerText = message
         msg.addEventListener('click', () => { msg.remove() })
 
