@@ -100,7 +100,7 @@ class FuntilityUI
 
         let inEmail = document.createElement('input')
         inEmail.setAttribute('type','email')
-        inEmail.placeholder('Email')
+        inEmail.placeholder = 'Email'
         inEmail.id = 'email'
         inEmail.classList.add('fnt-input')
         inEmail.classList.add('fnt-wid-200')
@@ -111,7 +111,7 @@ class FuntilityUI
 
         let inUser = document.createElement('input')
         inUser.setAttribute('type','text')
-        inUser.placeholder('User Name')
+        inUser.placeholder = 'User Name'
         inUser.id = 'username'
         inUser.classList.add('fnt-input')
         inUser.classList.add('fnt-wid-200')
