@@ -26,53 +26,56 @@ class FuntilityUI
 
     funtilityElement(childElements = [])
     {
+        let div = document.createElement('div')
+        childElements.forEach(ele => div.appendChild(ele))
+
         let ele = document.getElementById('funtility')
         ele.innerHTML = null
-        ele.appendChild(new Ele('div')
-            .AppendChildren(childElements)
-            .Element)
+        ele.appendChild(div)
     }
 
     get userNameButton()
     {
-        return new Ele('span')
-            .InnerText(this.api.state.userName)
-            .AddClass('fnt-hover')
-            .Event_Click(() => { this.showModal(this.AccountContainer, ModalCloseMode.EASY) })
-            .Element
+        let span = document.createElement('span')
+        span.classList.add('fnt-hover')
+        span.innerText = this.api.state.userName
+        span.addEventListener('click', () => {
+            this.showModal(this.AccountContainer, ModalCloseMode.EASY)
+        })
+        return span
     }
 
     get signOutButon()
     {
-        return new Ele('span')
-            .InnerText('Sign Out')
-            .AddClass('fnt-hover')
-            .Event_Click(() => {
-                if(confirm("Are you sure you want to sign out?"))
-                {
-                    this.api.signOut()
-                    location.reload()
-                }
-            })
-            .Element
+        let span = document.createElement('span')
+        span.classList.add('fnt-hover')
+        span.innerText = 'Sign Out'
+        span.addEventListener('click', () => {
+            if(confirm("Are you sure you want to sign out?"))
+            {
+                this.api.signOut()
+                location.reload()
+            }
+        })
+        return span
     }
 
     get signInButton()
     {
-        return new Ele('span')
-            .InnerText('Sign In')
-            .AddClass('fnt-hover')
-            .Event_Click(() => { this.showModal(this.SignInContainer) })
-            .Element
+        let span = document.createElement('span')
+        span.classList.add('fnt-hover')
+        span.innerText = 'Sign In'
+        span.addEventListener('click', () => { this.showModal(this.SignInContainer) })
+        return span
     }
 
     get signUpButton()
     {
-        return new Ele('span')
-            .InnerText('Sign Up')
-            .AddClass('fnt-hover')
-            .Event_Click(() => { this.showModal(this.SignUpContainer) })
-            .Element
+        let span = document.createElement('span')
+        span.classList.add('fnt-hover')
+        span.innerText = 'Sign Up'
+        span.addEventListener('click', () => { this.showModal(this.SignUpContainer) })
+        return span
     }
 
     //#endregion
@@ -83,50 +86,48 @@ class FuntilityUI
     {
         this.resetAll()
 
-        let hdr = new Ele('div')
-            .InnerText('Sign Up For')
-            .AddClass('xlg')
-            .Element
+        let hdr = document.createElement('div')
+        hdr.classList.add('xlg')
+        hdr.innerText = 'Sign Up For'
         
-        let app = new Ele('div')
-            .InnerText(this.api.appName)
-            .AddClass('xlg bold')
-            .Element
+        let app = document.createElement('div')
+        app.classList.add('xlg')
+        app.classList.add('bold')
+        app.innerText = this.api.appName
 
-        let br = new Ele('br')
-            .AddClass('fnt-hgt-20')
-            .Element
+        let br = document.createElement('br')
+        br.classList.add('fnt-hgt-20')
 
-        let inEmail = new Ele('input')
-            .Placeholder('Email')
-            .AddClass('fnt-input fnt-wid-200')
-            .Id('email')
-            .Type('email')
-            .Element
-            
-        let iVal1 = new Ele('div')
-            .AddClass('fnt-hgt-20')
-            .Id('emailValid')
-            .Element
+        let inEmail = document.createElement('input')
+        inEmail.setAttribute('type','email')
+        inEmail.placeholder('Email')
+        inEmail.id = 'email'
+        inEmail.classList.add('fnt-input')
+        inEmail.classList.add('fnt-wid-200')
 
-        let inUser = new Ele('input')
-            .Placeholder('User Name')
-            .AddClass('fnt-input fnt-wid-200')
-            .Id('username')
-            .Type('text')
-            .Element
-            
-        let iVal2 = new Ele('div')
-            .AddClass('fnt-hgt-20')
-            .Id('usernameValid')
-            .Element
+        let iVal1 = document.createElement('div')
+        iVal1.id = 'emailValid'
+        iVal1.classList.add('fnt-hgt-20')
 
-        let btn = new Ele('button')
-            .InnerText('Submit')
-            .Id('signUpFormButton')
-            .AddClass('fnt-button fnt-wid-200 xxlg tx-ctr')
-            .Event_Click((e) => { this.requestAccount() })
-            .Element
+        let inUser = document.createElement('input')
+        inUser.setAttribute('type','text')
+        inUser.placeholder('User Name')
+        inUser.id = 'username'
+        inUser.classList.add('fnt-input')
+        inUser.classList.add('fnt-wid-200')
+
+        let iVal2 = document.createElement('div')
+        iVal2.id = 'usernameValid'
+        iVal2.classList.add('fnt-hgt-20')
+
+        let btn = document.createElement('button')
+        btn.id = 'signUpFormButton'
+        btn.classList.add('fnt-button')
+        btn.classList.add('fnt-wid-200')
+        btn.classList.add('xxlg')
+        btn.classList.add('tx-ctr')
+        btn.innerText = 'Submit'
+        btn.addEventListener('click', () => { this.requestAccount() })
 
         return this.generateFormContainer([hdr,app,br,inEmail,iVal1,inUser,iVal2,btn])
     }
@@ -190,46 +191,43 @@ class FuntilityUI
 
     get SignInContainer()
     {
-        let hdr = new Ele('div')
-            .InnerText('Sign In to')
-            .AddClass('xlg')
-            .Element
+        let hdr = document.createElement('div')
+        hdr.innerText = 'Sign In to'
+        hdr.classList.add('xlg')
         
-        let app = new Ele('div')
-            .InnerText(this.api.appName)
-            .AddClass('xlg bold')
-            .Element
+        let app = document.createElement('div')
+        app.innerText = this.api.appName
+        app.classList.add('xlg')
+        app.classList.add('bold')
         
-        let info = new Ele('div')
-            .InnerText("We'll email a sign in code.")
-            .Element
+        let info = document.createElement('div')
+        info.innerText = "We'll email a sign in code."
 
-        let inp = new Ele('input')
-            .Placeholder('Email')
-            .AddClass('fnt-input fnt-wid-200')
-            .Id('email')
-            .Type('email')
-            .Element
-        
+        let inp = document.createElement('input')
+        inp.setAttribute('type','email')
+        inp.id = 'email'
+        inp.classList.add('fnt-input')
+        inp.classList.add('fnt-wid-200')
+        inp.placeholder = 'Emal'
         inp.value = this.api.savedEmail
 
-        let iVal = new Ele('div')
-            .AddClass('fnt-hgt-20')
-            .Id('emailValid')
-            .Element
+        let iVal = document.createElement('div')
+        iVal.id = 'emailValid'
+        iVal.classList.add('fnt-hgt-20')
 
-        let btn = new Ele('button')
-            .Id('signInFormButton')
-            .InnerText('Continue')
-            .AddClass('fnt-button fnt-wid-200 xxlg tx-ctr')
-            .Event_Click((e) => { this.requestSignInCode(email) })
-            .Element
+        let btn = document.createElement('button')
+        btn.id = 'signInFormButton'
+        btn.innerText = 'Continue'
+        btn.classList.add('fnt-button')
+        btn.classList.add('fnt-wid-200')
+        btn.classList.add('xxlg')
+        btn.classList.add('tx-ctr')
+        btn.addEventListener('click', () => { this.requestSignInCode(email) })
         
-        let skip = new Ele('a')
-            .InnerText('I already have a code.')
-            .AddClass('fnt-have-code')
-            .Event_Click((e) => { this.showModal(this.EnterCodeContainer) })
-            .Element
+        let skip = document.createElement('a')
+        skip.innerText = 'I already have a code.'
+        skip.classList.add('fnt-have-code')
+        skip.addEventListener('click', () => { this.showModal(this.EnterCodeContainer) })
 
         return this.generateFormContainer([hdr,app,info,inp,iVal,btn,skip])
     }
@@ -283,34 +281,36 @@ class FuntilityUI
 
     get EnterCodeContainer()
     {
-        let hdr = new Ele('div')
-            .AddClass('bold xlg')
-            .InnerText('Enter the code')
-            .Element
+        let hdr = document.createElement('div')
+        hdr.classList.add('bold')
+        hdr.classList.add('xlg')
+        hdr.innerText = 'Enter the code'
         
-        let info = new Ele('p')
-            .InnerText('If that email address exists in our system, ' +
-                'you should recieve an email with a code to sign in.')
-            .AddClass('sm')
-            .Element
-
-        let inp = new Ele('input')
-            .Id('code')
-            .Placeholder('Code')
-            .AddClass('fnt-input fnt-wid-200 xxlg tx-ctr')
-            .Element
-            
-        let iVal = new Ele('div')
-            .AddClass('fnt-hgt-20')
-            .Id('codeValid')
-            .Element
-
-        let btn = new Ele('button')
-            .Id('enterCodeButton')
-            .InnerText('Submit')
-            .Event_Click((e) => { this.requestAuthentication() })
-            .AddClass('fnt-button fnt-wid-200 xxlg tx-ctr')
-            .Element
+        let info = document.createElement('p')
+        info.classList.add('sm')
+        info.innerText = 'If that email address exists in our system, ' +
+            'you should recieve an email with a code to sign in.'
+        
+        let inp = document.createElement('input')
+        inp.id = 'code'
+        inp.classList.add('fnt-input')
+        inp.classList.add('fnt-wid-200')
+        inp.classList.add('xxlg')
+        inp.classList.add('tx-ctr')
+        inp.placeholder = 'Code'
+        
+        let iVal = document.createElement('div')
+        iVal.id = 'codeValid'
+        iVal.classList.add('fnt-hgt-20')
+        
+        let btn = document.createElement('button')
+        btn.id = 'enterCodeButton'
+        btn.classList.add('fnt-button')
+        btn.classList.add('fnt-wid-200')
+        btn.classList.add('xxlg')
+        btn.classList.add('tx-ctr')
+        btn.innerText = 'Submit'
+        btn.addEventListener('click', () => { this.requestAuthentication() })
 
         return this.generateFormContainer([hdr,info,inp,iVal,btn])
     }
@@ -363,16 +363,15 @@ class FuntilityUI
 
     get AccountContainer()
     {
-        let hdr = new Ele('div')
-            .AddClass('bold xlg')
-            .InnerText(this.api.state.userName)
-            .Element
+        let hdr = document.createElement('div')
+        hdr.classList.add('bold')
+        hdr.classList.add('xlg')
+        hdr.innerText = this.api.state.userName
         
-        let info = new Ele('p')
-            .InnerText('Coming soon. This is where you will ' +
-                'be able to manage account details.')
-            .AddClass('sm')
-            .Element
+        let info = document.createElement('div')
+        info.classList.add('sm')
+        info.innerText = 'Coming soon. This is where you will ' +
+            'be able to manage account details.'
 
         return this.generateFormContainer([hdr,info])
     }
@@ -415,16 +414,12 @@ class FuntilityUI
     generateFormContainer(childElements = [])
     {
         let stopEvent = (event) => { event.stopPropagation() }
-
-        let container = new Ele('div')
-            .AddClass('fnt-container')
-            .Event_Click(stopEvent)
-            .Element
-
+        let container = document.createElement('div')
+        container.classList.add('fnt-container')
+        container.addEventListener('click',stopEvent)
         childElements.forEach((child) => {
             container.appendChild(child)
         })
-
         return container
     }
 
@@ -442,11 +437,9 @@ class FuntilityUI
 
     get ProcessingContainer()
     {
-        let hdr = new Ele('div')
-            .AddClass('bold xlg')
-            .InnerText('Thinking...')
-            .Element
-        
+        let hdr = document.createElement('div')
+        hdr.classList.add('bold xlg')
+        hdr.innerText = 'Thinking...'        
         return this.generateFormContainer([hdr])
     }
 
@@ -460,11 +453,10 @@ class FuntilityUI
     {
         let parent = document.getElementById(parentElementId)
 
-        let msg = new Ele('div')
-            .AddClass(`${cls} msg`)
-            .InnerText(message)
-            .Event_Click(() => { msg.remove() })
-            .Element
+        let msg = document.createElement('div')
+        msg.classList.add(`${cls} msg`)
+        msg.innerText = message
+        msg.addEventListener('click', () => { msg.remove() })
 
         setTimeout(() => { msg.remove() },timeout)
             
@@ -476,7 +468,8 @@ class FuntilityUI
         let msgCenter = document.getElementById('fnt-msg-cntr')
         if (msgCenter == null)
         {
-            msgCenter = new Ele('div').Id('fnt-msg-cntr').Element
+            msgCenter = document.createElement('div')
+            msgCenter.id = 'fnt-msg-cntr'
             document.querySelector("body").appendChild(msgCenter)
         }
         return msgCenter
@@ -514,33 +507,31 @@ class FuntilityUI
     }
 
     createModal(child, closeMode)
-    {        
-        let modal = new Ele('div')
-            .Id('fnt-modal')
-            .AppendChild(child)
+    {
+        let modal = document.createElement('div')
+        modal.id = 'fnt-modal'
+        modal.appendChild(child)
 
         if (closeMode == ModalCloseMode.EASY) {
-            modal.Event_Click(() => { this.deleteModal() })
+            modal.addEventListener('click', () => { this.deleteModal() })
         } else if (closeMode == ModalCloseMode.DELIBERATE) {
             child.appendChild(this.closeModalButton)
         }
 
-        return modal.Element
+        return modal
     }
 
     get closeModalButton()
     {
-        let fn = () => {
+        let ele = document.createElement('div')
+        ele.id = 'fnt-close-btn'
+        ele.addEventListener('click',() => {
             let modal = document.getElementById('fnt-modal')
             if (modal) modal.remove()
             let btn = document.getElementById('fnt-close-btn')
             if (btn) btn.remove()
-        }
-
-        return new Ele('div')
-            .Id('fnt-close-btn')
-            .Event_Click(fn)
-            .Element
+        })
+        return ele
     }
 
     //#endregion

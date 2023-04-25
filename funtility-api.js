@@ -38,6 +38,8 @@ class FuntilityAPI
         this.apiBaseUrl = apiBaseUrl
     }
 
+    //#region Auth/Identity
+
     syncSessionStorage(push = false){
         if (push)
         {
@@ -127,6 +129,8 @@ class FuntilityAPI
         this.signInCodePrefix = ''
         this.clearState()
     }
+
+    //#endregion
 
     //#region Funtility Account Related Endpoints
 
