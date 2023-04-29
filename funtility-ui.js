@@ -14,7 +14,8 @@ class FuntilityUI
     init()
     {
         this.initMessageCenter()
-        let divider = new Ele('span').InnerText(' | ').Element
+        let divider = document.createElement('span')
+        divider.innerText = ' | '
         
         if (this.api.userIsSignedIn)
         {
