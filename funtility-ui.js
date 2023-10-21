@@ -448,7 +448,8 @@ class FuntilityUI
     messageType = {
         'ERROR': 'fnt-err',
         'SUCCESS': 'fnt-success',
-        'WARNING': 'fnt-warn'
+        'WARNING': 'fnt-warn',
+        'INFO': 'fnt-info'
     }
 
     showEphemeralMessage(parentElementId, cls, message, timeout = 2000)
@@ -480,17 +481,22 @@ class FuntilityUI
 
     showSuccess(message)
     {
-        this.showEphemeralMessage('fnt-msg-cntr',this.messageType.SUCCESS,message, 10000)
+        this.showEphemeralMessage('fnt-msg-cntr',this.messageType.SUCCESS,message, 4000)
     }
 
     showError(message)
     {
-        this.showEphemeralMessage('fnt-msg-cntr',this.messageType.ERROR,message, 10000)
+        this.showEphemeralMessage('fnt-msg-cntr',this.messageType.ERROR,message, 4000)
     }
 
     showWarning(message)
     {
-        this.showEphemeralMessage('fnt-msg-cntr',this.messageType.WARNING,message, 10000)
+        this.showEphemeralMessage('fnt-msg-cntr',this.messageType.WARNING,message, 4000)
+    }
+
+    showInfo(message)
+    {
+        this.showEphemeralMessage('fnt-msg-cntr',this.messageType.INFO,message, 4000)
     }
 
     //#region Form Modal

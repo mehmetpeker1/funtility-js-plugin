@@ -129,6 +129,13 @@
     line-height: 1;
 }
 
+.fnt-info {
+    color: rgb(0, 103, 200);
+    border-color: rgb(0, 103, 200);
+    text-align: center;
+    line-height: 1;
+}
+
 .fnt-have-code {
     cursor: pointer;
     position: relative;
