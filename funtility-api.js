@@ -16,10 +16,10 @@ class FuntilityApiState
 {
     constructor(data = {})
     {
-        this.authToken = data.hasOwnProperty('authToken') ? data.authToken : null
-        this.createDate = data.hasOwnProperty('createDate') ? data.createDate : null
-        this.userName = data.hasOwnProperty('userName') ? data.userName : null
-        this.email = data.hasOwnProperty('email') ? data.email : null
+        this.authToken = data.hasOwnProperty('authToken') ? data.authToken : ''
+        this.createDate = data.hasOwnProperty('createDate') ? data.createDate : ''
+        this.userName = data.hasOwnProperty('userName') ? data.userName : ''
+        this.email = data.hasOwnProperty('email') ? data.email : ''
     }
 }
 
@@ -59,15 +59,16 @@ class FuntilityAPI
 
     get savedEmail()
     {
-        let local = localStorage.getItem(this.stateName)
+        let local = localStorage.getItem(`Funtility:${this.stateName}`)
         if (local) {
             return local
         } 
         return ""
     }
+
     set savedEmail(value)
     {
-        localStorage.setItem(this.stateName,value)
+        localStorage.setItem(`Funtility:${this.stateName}`,value)
     }
 
     clearState()
