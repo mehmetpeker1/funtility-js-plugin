@@ -19,7 +19,7 @@ class FuntilityApiState
         this.authToken = data.hasOwnProperty('authToken') ? data.authToken : ''
         this.createDate = data.hasOwnProperty('createDate') ? data.createDate : ''
         this.userName = data.hasOwnProperty('userName') ? data.userName : ''
-        this.email = data.hasOwnProperty('email') ? data.email : ''
+        // this.email = data.hasOwnProperty('email') ? data.email : ''
     }
 }
 
@@ -189,7 +189,7 @@ class FuntilityAPI
         let r = await this.GET("Authentication",params)
         this.signInCodePrefix = ''
         this.state = new FuntilityApiState(r.result)
-        this.savedEmail = this.state.email
+        // this.savedEmail = this.state.email
         this.syncSessionStorage(true)
         return new ApiResponse({ 'errors': r.errors, 'result': true })
     }
