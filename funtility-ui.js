@@ -209,7 +209,7 @@ class FuntilityUI
         inp.id = 'email'
         inp.classList.add('fnt-input')
         inp.classList.add('fnt-wid-200')
-        inp.placeholder = 'Emal'
+        inp.placeholder = 'Email'
         inp.value = this.api.savedEmail
 
         let iVal = document.createElement('div')
