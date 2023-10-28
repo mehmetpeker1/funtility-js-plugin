@@ -248,7 +248,11 @@ class FuntilityUI
                     })
                 } else {
                     this.form = res.result
-                    this.showModal(this.EnterCodeContainer)
+                    if (this.api.userIsSignedIn) {
+                        location.reload()
+                    } else {
+                        this.showModal(this.EnterCodeContainer)
+                    }
                 }
             })
         }

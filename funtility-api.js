@@ -170,7 +170,11 @@ class FuntilityAPI
         ]
         let r = await this.GET("Login", params)
         this.signInCodePrefix = r.result.code
-        return new ApiResponse({ 'errors': r.errors, 'result': r.result })
+        if(r.result.debug !== '') {
+            return this.GET_Authentication(r.result.debug);
+        } else {
+            return new ApiResponse({ 'errors': r.errors, 'result': r.result })
+        }
     }
 
     /**
@@ -189,7 +193,6 @@ class FuntilityAPI
         let r = await this.GET("Authentication",params)
         this.signInCodePrefix = ''
         this.state = new FuntilityApiState(r.result)
-        // this.savedEmail = this.state.email
         this.syncSessionStorage(true)
         return new ApiResponse({ 'errors': r.errors, 'result': true })
     }
